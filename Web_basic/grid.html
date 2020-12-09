@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #grid{
+            border: 5px solid pink;
+            /*
+            border-width: 5px;
+            border-color: red;
+            border-style: solid;
+            */
+            display: grid; /*display function turns something which has particular 
+            feature display method into another something which has another feature.*/
+            grid-template-columns: 150px 1fr;  
+            /*A website has statistics that how many people use particular function
+            thesedays: caniuse.com*/
+        }
+        div {
+            border: 5px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <div id="grid">
+        <div>NAVIGATION</div>
+         <!--div does not have any meaning, used only designing something
+        block level element-->
+        <div>ARITCLE</div>
+        <!-- span also is intended for designing something
+        but it is inline level element-->
+    </div>
+</body>
+</html>
