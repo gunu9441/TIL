@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Object</h1>
+    <h1>Create</h1>
+    <script>
+        var coworkers = {
+            "programmer":"egoing",
+            "designer":"leezeche"
+        };
+        document.write("programmer : "+coworkers.programmer+"<br>");
+        document.write("programmer : "+coworkers.designer+"<br>");
+        coworkers.bookkeeper = "duru";
+        document.write("bookkeeper : "+coworkers.bookkeeper+"<br>");
+        coworkers["data scientist"] = "taeho";
+        document.write("data scientist: "+coworkers["data scientist"])
+    </script>
+    <h2>Iterate</h2>
+    <script>
+        for(var key in coworkers){
+            document.write(key+' : '+coworkers[key]+'<br>');
+        }
+    </script>
+    <h2>Property & Method</h2>
+    <!-- property: 객체에 있는 변수 -->
+    <!-- Method: 객체에 있는 함수 -->
+    <script>
+        coworkers.showAll = function(){//= function showAll()
+            for(var key in this){/*이 함수가 소속되어 있는 객체를 가리키는 약속된 기호*/
+                document.write(key+' : '+this[key]+'<br>');
+        }
+    }
+    coworkers.showAll();
+    </script>
+</body>
+</html>
