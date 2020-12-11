@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<html>
 <body>
-    <input type="button" value="fetch" onclick="fetch('css').then(function(response){
-        response.text().then(funtion(text){
-            alert(text);
-        })
-    })
+    <article>
+
+
+    </article>
+    <input type="button" value="fetch" onclick="
+        /*fetch('html').then(function(response){
+            response.text().then(function(text){
+             document.querySelector('article').innerHTML = text;
+         })
+      })*/
+      //Asynchronous
+      /*callbackme = function(){
+        console.log('response end');
+      }*/
+      fetch('javascript').then(function(response){
+          if(response.status =='404'){
+            alert('Notfound');
+        console.log(response.status);
+        }
+      });
+      console.log(1);
+      console.log(2);
     ">
 </body>
 </html>
