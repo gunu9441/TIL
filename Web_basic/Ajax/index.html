@@ -11,10 +11,10 @@
   <input id="night_day" type="button" value="night" onclick="
     nightDayHandler(this);
   ">
-  <ol> 
-    <li><a href="#!html" onclick="fetchPage('html')">HTML</a></li>
+  <ol id="nav"> 
+    <!-- <li><a href="#!html" onclick="fetchPage('html')">HTML</a></li>
     <li><a href="#!css" onclick="fetchPage('CSS')">CSS</a></li>
-    <li><a href="#!javascript" onclick="fetchPage('javascript')">JavaScript</a></li>
+    <li><a href="#!javascript" onclick="fetchPage('javascript')">JavaScript</a></li> -->
   </ol>
   <article>
  
@@ -32,6 +32,22 @@
   } else {
     fetchPage('welcome');
   }
+  fetch('list').then(function(response){
+    response.text().then(function(text){
+      //console.log(text);->'html,css,javascript'
+      var items = text.split(',');
+      var tags ='';
+      for (var i=0 ;i<items.length; i++){
+        var item = items[i];
+        item = item.trim();//->Remove white space and other things.
+        //<li><a href="#!html" onclick="fetchPage('html')">HTML</a></li>
+        var tag = '<li><a href="#!'+item+'" onclick="fetchPage(\''+item+'\')">'+item+'</a></li>';
+        //console.log(tag);
+        tags = tags + tag;
+        //console.log(tags);
+      }
+      //console.log(items);->{html,css,javascript}
+      document.querySelector('#nav').innerHTML = tags;})});
   </script>
 </body>
 </html>
