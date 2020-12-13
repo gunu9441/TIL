@@ -10,8 +10,46 @@ var app = http.createServer(function(request,response){//address:http://localhos
 
     if(pathname === '/'){
       if(queryData.id === undefined){
-          var title = "Welcome";
-          var description = "Hello, Node.js";
+        fs.readdir('./data', function(error,filelist){
+            console.log(filelist)
+            var title = "Welcome";
+            var description = "Hello, Node.js";
+            var i = 0;
+            var list = `<ol>`;
+            while(i < filelist.length){
+              list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+              i += 1;
+            }
+            list += `</ol>`
+            var template = `
+            <!doctype html>
+            <html>
+            <head>
+              <title>WEB1 - ${title}</title>
+              <meta charset="utf-8">
+            </head>
+            <body>
+              <h1><a href="/">WEB</a></h1>
+              ${list}
+              <h2>${title}</h2>
+              <p>${description}</p>
+            </body>
+            </html>
+            `;
+            response.writeHead(200);
+            response.end(template);
+        })} else {
+      fs.readFile(`data/${queryData.id}`, 'utf8', function(err, description){
+        fs.readdir('data/',function(err,filelist){
+          var title = queryData.id;
+          var list = `<ol>`;
+          var i = 0;
+          while(i < filelist.length){
+            list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+            i += 1;
+          }
+          list += `</ol>`
+
           var template = `
           <!doctype html>
           <html>
@@ -21,42 +59,15 @@ var app = http.createServer(function(request,response){//address:http://localhos
           </head>
           <body>
             <h1><a href="/">WEB</a></h1>
-            <ol>
-              <li><a href="/?id=HTML">HTML</a></li>
-              <li><a href="http://localhost:3000/?id=CSS">CSS</a></li>
-              <li><a href="http://localhost:3000/?id=Javascript">Javascript</a></li>
-            </ol>
+            ${list}
             <h2>${title}</h2>
             <p>${description}</p>
           </body>
           </html>
           `;
-         response.writeHead(200);
-         response.end(template);
-      } else {
-      fs.readFile(`data/${queryData.id}`, 'utf8', function(err, description){
-        var title = queryData.id;
-        var template = `
-        <!doctype html>
-        <html>
-        <head>
-          <title>WEB1 - ${title}</title>
-          <meta charset="utf-8">
-        </head>
-        <body>
-          <h1><a href="/">WEB</a></h1>
-          <ol>
-            <li><a href="/?id=HTML">HTML</a></li>
-            <li><a href="http://localhost:3000/?id=CSS">CSS</a></li>
-            <li><a href="http://localhost:3000/?id=Javascript">Javascript</a></li>
-          </ol>
-          <h2>${title}</h2>
-          <p>${description}</p>
-        </body>
-        </html>
-        `;
-       response.writeHead(200);
-       response.end(template);
+        response.writeHead(200);
+        response.end(template);
+        })
        });
       }
     } else {
