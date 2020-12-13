@@ -1,6 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
+
 function templateHTML(title, list, body){
   return`
   <!doctype html>
@@ -16,11 +17,24 @@ function templateHTML(title, list, body){
    </body>
    </html>`;
 }
+
+function templateList(filelist){
+  var i = 0;
+  var list = `<ol>`;
+  while(i < filelist.length){
+    list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+    i += 1;
+  }
+  list += `</ol>`;
+  return list;
+}
+
 var app = http.createServer(function(request,response){//address:http://localhost:3000/?id=HTML
     var _url = request.url;
     var queryData = url.parse(_url, true).query;
+    // console.log('1. ',_url);
     var pathname = url.parse(_url, true).pathname;
-    console.log(url.parse(_url, true));
+    // console.log(url.parse(_url, true));
 
     if(pathname === '/'){
       if(queryData.id === undefined){
@@ -28,13 +42,7 @@ var app = http.createServer(function(request,response){//address:http://localhos
             console.log(filelist)
             var title = "Welcome";
             var description = "Hello, Node.js";
-            var i = 0;
-            var list = `<ol>`;
-            while(i < filelist.length){
-              list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
-              i += 1;
-            }
-            list += `</ol>`
+            var list = templateList(filelist);
 
             var template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`);
             response.writeHead(200);
@@ -43,14 +51,7 @@ var app = http.createServer(function(request,response){//address:http://localhos
       fs.readFile(`data/${queryData.id}`, 'utf8', function(err, description){
         fs.readdir('data/',function(err,filelist){
           var title = queryData.id;
-          var list = `<ol>`;
-          var i = 0;
-          while(i < filelist.length){
-            list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
-            i += 1;
-          }
-          list += `</ol>`
-
+          var list = templateList(filelist);
           var template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`);
           response.writeHead(200);
           response.end(template);
