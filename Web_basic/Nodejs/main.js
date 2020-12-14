@@ -105,9 +105,10 @@ var app = http.createServer(function (request, response) {
       console.log(body);
       console.log(post);
 
-      fs.writeFile(`data/${title}`, description, "utf8", function (err) {
-        response.writeHead(200);
-        response.end("success");
+      fs.writeFile(`data/${title}`, description, "utf8", 
+      function (err) {
+        response.writeHead(302, {Location: `/?id=${title}`});
+        response.end("success"); // redirection
       });
     });
   } else {
