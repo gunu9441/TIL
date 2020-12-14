@@ -1,9 +1,10 @@
-var http = require('http');
-var fs = require('fs');
-var url = require('url');
+var http = require("http");
+var fs = require("fs");
+var url = require("url");
+var qs = require("querystring");
 
-function templateHTML(title, list, body){
-  return`
+function templateHTML(title, list, body) {
+  return `
   <!doctype html>
    <html>
    <head>
@@ -19,52 +20,65 @@ function templateHTML(title, list, body){
    </html>`;
 }
 
-function templateList(filelist){
+function templateList(filelist) {
   var i = 0;
   var list = `<ol>`;
-  while(i < filelist.length){
-    list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`
+  while (i < filelist.length) {
+    list += `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
     i += 1;
   }
   list += `</ol>`;
   return list;
 }
 
-var app = http.createServer(function(request,response){//address:http://localhost:3000/?id=HTML
-    var _url = request.url;
-    var queryData = url.parse(_url, true).query;
-    // console.log('1. ',_url);
-    var pathname = url.parse(_url, true).pathname;
-    // console.log(pathname)
-    // console.log(url.parse(_url, true));
+var app = http.createServer(function (request, response) {
+  //address:http://localhost:3000/?id=HTML
+  var _url = request.url;
+  var queryData = url.parse(_url, true).query;
+  // console.log('1. ',_url);
+  var pathname = url.parse(_url, true).pathname;
+  // console.log(pathname)
+  // console.log(url.parse(_url, true));
 
-    if(pathname === '/'){
-      if(queryData.id === undefined){
-        fs.readdir('./data', function(error,filelist){
-            var title = "Welcome";
-            var description = "Hello, Node.js";
-            var list = templateList(filelist);
+  if (pathname === "/") {
+    if (queryData.id === undefined) {
+      fs.readdir("./data", function (error, filelist) {
+        var title = "Welcome";
+        var description = "Hello, Node.js";
+        var list = templateList(filelist);
 
-            var template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`);
-            response.writeHead(200);
-            response.end(template);
-        })} else {
-      fs.readFile(`data/${queryData.id}`, 'utf8', function(err, description){
-        fs.readdir('data/',function(err,filelist){
+        var template = templateHTML(
+          title,
+          list,
+          `<h2>${title}</h2><p>${description}</p>`
+        );
+        response.writeHead(200);
+        response.end(template);
+      });
+    } else {
+      fs.readFile(`data/${queryData.id}`, "utf8", function (err, description) {
+        fs.readdir("data/", function (err, filelist) {
           var title = queryData.id;
           var list = templateList(filelist);
-          var template = templateHTML(title, list, `<h2>${title}</h2><p>${description}</p>`);
+          var template = templateHTML(
+            title,
+            list,
+            `<h2>${title}</h2><p>${description}</p>`
+          );
           response.writeHead(200);
           response.end(template);
-        })
-       });
-      }
-    } else if(pathname==='/create'){
-      fs.readdir('./data', function(error,filelist){
+        });
+      });
+    }
+  } else if (pathname === "/create") {
+    fs.readdir("./data", function (error, filelist) {
       var title = "Web-create";
       var list = templateList(filelist);
-      var template = templateHTML(title, list, `
-      <form action="http://localhost:3000/process_create" method="POST">
+      var template = templateHTML(
+        title,
+        list,
+        `
+      <form action="http://localhost:3000/create_process" method="POST">
         <p><input type="text" name="title" placeholder="title"></p>
         <p>
             <textarea name="description" placeholder="descripion"></textarea>
@@ -73,16 +87,33 @@ var app = http.createServer(function(request,response){//address:http://localhos
             <input type="submit">
         </p>
         </form>
-      `);
+      `
+      );
 
       response.writeHead(200);
       response.end(template);
-    })
-    }
-    else {
-      response.writeHead(404);
-      response.end("Not found");
-    }
-    
+    });
+  } else if (pathname === "/create_process") {
+    var body = "";
+    request.on("data", function (data) {
+      body += data;
+    });
+    request.on("end", function () {
+      var post = qs.parse(body);
+      var title = post.title;
+      var description = post.description;
+      console.log(body);
+      console.log(post);
+
+      fs.writeFile(`data/${title}`, description, "utf8", function (err) {
+        response.writeHead(200);
+        response.end("success");
+      });
+    });
+  } else {
+    response.writeHead(404);
+    response.end("Not found");
+  }
 });
+
 app.listen(3000);
