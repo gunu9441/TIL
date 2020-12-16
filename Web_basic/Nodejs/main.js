@@ -2,14 +2,16 @@ var http = require("http");
 var fs = require("fs");
 var url = require("url");
 var qs = require("querystring");
+var path = require("path");
 var template = require("./lib/template.js");
-console.log(template);
+var sanitizeHtml = require('sanitize-html');
 
 var app = http.createServer(function (request, response) {
   //address:http://localhost:3000/?id=HTML
   var _url = request.url;
   var queryData = url.parse(_url, true).query;
-  // console.log('1. ',_url);
+  console.log(_url)
+  console.log(path.parse(_url))
   var pathname = url.parse(_url, true).pathname;
   // console.log(pathname)
   // console.log(url.parse(_url, true));
@@ -32,22 +34,27 @@ var app = http.createServer(function (request, response) {
         response.end(html);
       });
     } else {
-      fs.readFile(`data/${queryData.id}`, "utf8", function (err, description) {
+      var filteredID=path.parse(queryData.id).base;
+      fs.readFile(`data/${filteredID}`, "utf8", function (err, description) {
+        // console.log(queryData)
+        // console.log(path.parse(queryData.id))
         fs.readdir("data/", function (err, filelist) {
           var title = queryData.id;
+          var sanitizedTitle = sanitizeHtml(title);
+          var sanitizedDescription = sanitizeHtml(description, {allowedTags:['h1']});
           var list = template.LIST(filelist);
           var control = `
           <a href="/create">create</a> 
-          <a href ="/update?id=${title}">update</a> 
+          <a href ="/update?id=${sanitizedTitle}">update</a> 
           <form action="/delete_process" method="POST">
-            <input type="hidden" name='id' value = ${title}>
+            <input type="hidden" name='id' value = ${sanitizedTitle}>
             <input type="submit" value="delete">
           </form>
           `
           var html = template.HTML(
-            title,
+            sanitizedTitle,
             list,
-            `<h2>${title}</h2><p>${description}</p>`,
+            `<h2>${sanitizedTitle}</h2><p>${sanitizedDescription}</p>`,
             control
           );
           response.writeHead(200);
@@ -87,8 +94,6 @@ var app = http.createServer(function (request, response) {
       var post = qs.parse(body);
       var title = post.title;
       var description = post.description;
-      console.log(body);
-      console.log(post);
 
       fs.writeFile(`data/${title}`, description, "utf8", 
       function (err) {
@@ -97,7 +102,8 @@ var app = http.createServer(function (request, response) {
       });
     });
   } else if (pathname == "/update"){
-    fs.readFile(`data/${queryData.id}`, "utf8", function (err, description) {
+    var filteredID=path.parse(queryData.id).base;
+    fs.readFile(`data/${filteredID}`, "utf8", function (err, description){
       fs.readdir("data/", function (err, filelist) {
         var title = queryData.id;
         var list = template.LIST(filelist);
@@ -147,7 +153,8 @@ var app = http.createServer(function (request, response) {
       request.on('end',function(){
         var post = qs.parse(body);
         var id = post.id;
-        fs.unlink(`data/${id}`, function(error){
+        var filteredId = path.parse(id).base;
+        fs.unlink(`data/${filteredId}`, function(error){
           response.writeHead(302, {Location: `/`});
           response.end();
         })
