@@ -6,7 +6,7 @@ var path = require("path");
 var template = require("./lib/template.js");
 var sanitizeHtml = require('sanitize-html');
 
-var app = http.createServer(function (request, response) {
+var app = http. createServer(function (request, response) {
   //address:http://localhost:3000/?id=HTML
   var _url = request.url;
   var queryData = url.parse(_url, true).query;
