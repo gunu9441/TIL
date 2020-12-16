@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>self_introduction_main</title>
+    <style>
+        body{
+            margin: 0;
+            border-bottom: 2px solid gray;
+        }
+        h1 {
+            margin: 5px;
+            padding: 10px;
+            text-align: center;
+            /*text-decoration: underline solid black;*/
+        }
+        h2{            
+            margin-bottom: 0px;
+            margin-left: 30px;
+        }
+        #grid{
+            display: grid;
+            border-top: 2px solid gray;
+            grid-template-columns: 150px 1fr;
+        }
+        #grid ol{
+            border-right: 2px solid gray;
+            width: 70px;
+            margin: 0px;
+            padding:30px;
+        }
+        #grid #article{
+            padding-left: 20px;
+            margin: 0px;
+        }
+        @media(max-width: 800px){
+            h2{
+                border-bottom: none;
+            }
+            #grid{
+                border-top: none;
+                display: block;
+            }
+            #grid ol {
+                border-right: none;
+            }
+            #grid #article 
+            {
+                border-top: 2px solid gray;
+            }
+        }
+
+        /*#grid{
+            display:grid;
+            grid-template-columns: 150px 1fr;
+        }*/
+    </style>
+</head>
+<body>
+    <h1>Welcome to <a href="main.html">gunu's</a> page!</h1>
+    <h2>Let me know U!</h2>
+    <div id="grid">
+        <ol>
+            <li><a href="">yejin</a></li>
+            <!-- 리스트가 쓰여지는 곳 -->
+        </ol>
+        <div id='article'>
+            <h3>My location</h3>
+            <p>I live in south korea which many people want to travel in.</p>
+            <h3>My hobby</h3>
+            <p>I really enjoy playing computer games such as rpg or shootings.<br>
+            If you want to join with me, send me a message to discuss time we can make!</p>
+            <h3>My dream</h3>
+            <p>I want to be a programmer who can make contributions to opensource communities.<br>
+                What is your dream? and why do you follow that dream?
+            </p>
+            <h3>My favorite food</h3>
+            <p>Hmm... Actually, it is so difficult topic that there are many foods that I like...<br>
+                One of my choices is... pizza? I really like it because it have many kinds of ingredients
+                and favors which make me pleased. when I eat special galic sauce on it, it is really delicious.
+                <br> actually, I am very starving now...<br>
+                <img src="sauce.jpeg" > <br>his is best  sauce what I ever had</p>
+            <h3>My family</h3>
+            <p>My family is mom, dad, my youngerbrother. At the moment, My brother takes call of duty.
+            <br>Therefore, my family is look forward to see him as soon as possible. However, thesedays,
+                There is an epidemic called corona that everyone is afraid of. We have to understand this
+                severe situation and prepare other more serious illnesses.</p>   
+        </div>
+    </div> 
+</body>
+</html>
