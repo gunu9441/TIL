@@ -2,7 +2,7 @@ var Links={
     setcolor: function(color,a_array){
         var count = 0;
         while(count<a_array.length){
-            a_array[count].style.color = 'powderblue'
+            a_array[count].style.color = color;
             count += 1;
         }
     }
@@ -26,7 +26,7 @@ function nightDayHandler(self){
         } else{
         Body.setcolor('black');
         Body.setbackgroundcolor('white');
-        Links.setcolor('blue',a_array)
+        Links.setcolor('blue',a_array);
         self.value = 'night';
         }
 }
