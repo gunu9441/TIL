@@ -34,7 +34,7 @@ var app = http.createServer(function(request,response){
                     Hmm... Actually, it is so difficult topic that there are many foods that I like...
                     One of my choices is... pizza? I really like it because it have many kinds of ingredients
                     and favors which make me pleased. when I eat special galic sauce on it, it is really delicious.
-                    Actually, I am very starving now... This is best  sauce what I ever had
+                    Actually, I am very starving now... This is best sauce what I ever had
                     My family
                     My family is mom, dad, my youngerbrother. At the moment, My brother takes call of duty.
                     Therefore, my family is look forward to see him as soon as possible. However, thesedays,
@@ -144,7 +144,21 @@ var app = http.createServer(function(request,response){
                 response.end();
             })
         })
-    } else{
+    } else if (pathname === '/style.css'){ 
+        fs.readFile('./style.css', function(err, page) {
+             response.writeHead(200, {'Content-Type': 'text/css'}); 
+             response.write(page);
+             response.end(); });
+
+    } else if(pathname === "/color.js"){
+        fs.readFile('./color.js', function (err, page){
+            response.writeHead(200, {'Content-Type': 'text/javascript'});
+            response.write(page);
+            response.end();
+        });
+    }
+
+    else{
         response.writeHead(404);
         response.end('not-found')
     }

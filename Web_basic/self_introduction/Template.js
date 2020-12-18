@@ -9,15 +9,20 @@ module.exports = {
             <title>self_introduction_${name}</title>
             <link rel="stylesheet" href="style.css"/>
             <script src="./color.js"></script>
-
         </head>
         <body>
             <h1>Welcome to <a href="/">gunu's</a> page!</h1>
+            <input type="button" value="night" onclick="
+            nightDayHandler(this);
+            ">
             <h2>Let me know U!</h2>
+            <div id="control">${control}</div>
+            <div id='grid'>
             ${list}
-            ${control}
+            <div id='article'>
             <h3>${name}</h3>
             ${description}
+            </div>
             </div> 
         </body>
         </html>
@@ -34,3 +39,14 @@ module.exports = {
         return list;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
