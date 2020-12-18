@@ -2,7 +2,8 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var qs = require('querystring');
-var template = require('./Template.js')
+var template = require('./Template.js');
+const { on } = require('process');
 
 
 var app = http.createServer(function(request,response){
@@ -50,7 +51,14 @@ var app = http.createServer(function(request,response){
                 fs.readFile(`./data/${queryData.id}`,"utf8", function(error,description){
                     var list = template.pageList(filelist);//이름출력
                     var name = queryData.id; //참여자 이름
-                    var control = `<a href="/create">create</a> <a href="/update?id=${name}">update</a>`;
+                    var control = `
+                        <a href="/create">create</a> 
+                        <a href="/update?id=${name}">update</a>
+                        <form action="/delete_process" method="POST">
+                            <input type="hidden" name="id" value=${name}>
+                            <input type="submit" value='delete'>
+                        </form>
+                        `;
                     var template_form = template.pageForm(list, name, description, control);//page 생성
                     response.writeHead(200);
                     response.end(template_form);
@@ -124,7 +132,18 @@ var app = http.createServer(function(request,response){
             });
         });
     } else if (pathname == '/delete_process'){
-        
+        var order =''
+        request.on('data',function(data){
+            order += data;
+        });
+        request.on('end',function(){
+            var post = qs.parse(order);
+            var id = post.id;
+            fs.unlink(`./data/${id}`, function(error){
+                response.writeHead(302, {Location: `/`});
+                response.end();
+            })
+        })
     } else{
         response.writeHead(404);
         response.end('not-found')
