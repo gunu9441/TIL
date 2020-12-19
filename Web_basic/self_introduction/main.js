@@ -11,9 +11,6 @@ var app = http.createServer(function(request,response){
 
     queryData = url.parse(_url,true).query;
     pathname = url.parse(_url,true).pathname;
-    console.log('1',pathname);
-    console.log('2',queryData);
-    console.log('3',queryData.id);
     if(pathname == '/'){
         if(queryData.id == undefined){
             fs.readdir('./data', function(error, filelist){
@@ -123,7 +120,6 @@ var app = http.createServer(function(request,response){
             var id = POST.id;
             var name = POST.name;
             var description = POST.description;
-            console.log('**', id, name, description)
             fs.rename(`./data/${id}`,`./data/${name}`,function(error){
                 fs.writeFile(`./data/${name}`,description,'utf8',function(error){
                     response.writeHead(302, {Location: `/?id=${name}`});
