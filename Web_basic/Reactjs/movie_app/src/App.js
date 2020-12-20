@@ -6,9 +6,10 @@ function Food({fav}){
 function App() {
   return <div>
           <h1>Hello!!!!</h1>
-          <Food fav="kimchi"
-                papapa={true}
-                koko={["pangya",,1,2,3,true]} />
+          <Food fav="kimchi" />
+          <Food fav="ramen" />
+          <Food fav="samgakimbab" />
+          <Food fav="cookie" />
         </div>;
 }
 
