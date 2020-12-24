@@ -33,7 +33,7 @@ class App extends React.Component{
 						{
 						movies.map(movie => (
 							<Movie 
-								key={movie.id}git
+								key={movie.id}
 								id={movie.id} 
 								year={movie.year} 
 								title={movie.title} 
