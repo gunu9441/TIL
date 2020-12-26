@@ -1,0 +1,23 @@
+.navigation{
+    margin-top: 50px;
+    margin-left: 50px;
+    background-color: white;
+    display: flex;
+    height: 10%;
+    border-radius : 20px;
+    box-shadow: 0 13px 27px -5px rgba(50 , 50 , 93, 0.25);
+    flex-wrap: wrap;
+    font-size: 20px;
+    position: relative;
+}
+
+.navigation .Home{
+    display: block;
+    margin: 10px;
+    text-decoration: none;
+}
+.navigation .About{
+    display: block;
+    margin: 10px;
+    text-decoration: none;
+}

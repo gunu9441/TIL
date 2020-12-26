@@ -5,7 +5,6 @@ import About from './routes/About';
 import Detail from './routes/Detail';
 import Navigation from './components/Navigation';
 
-
 function App(){
 	return(
 		<HashRouter>
@@ -13,7 +12,6 @@ function App(){
 			<Route exact path='/' component={Home}/>
 			<Route path='/about' component={About}/>
 			<Route path='/movie-detail' component={Detail}/>
-
 		</HashRouter>	
 	);
 }
