@@ -5,21 +5,22 @@ import {Link} from 'react-router-dom';
 
 function Movie({year, title, summary, poster, genres}){
         return(
-            <Link to=
-            {{
-                pathname:'/movie-detail',
-                state:{
-                    year:year,
-                    title:title,
-                    summary:summary,
-                    poster:poster,
-                    genres:genres
-                }
-            }}>
                 <div className = 'movie'>
                     <img src = {poster} alt={title} title={title} />
                     <div className = 'movie_data'>
+                        <Link to=
+                            {{
+                                pathname:'/movie-detail',
+                                state:{
+                                    year:year,
+                                    title:title,
+                                    summary:summary,
+                                    poster:poster,
+                                    genres:genres
+                                }
+                            }}>
                         <h3 className="movie_title">{title}</h3>
+                        </Link>
                         <h5 className="movie_year">{year}</h5>
                         <ul className="movie_genres">
                             {genres.map((genre, index)=>(
@@ -28,7 +29,7 @@ function Movie({year, title, summary, poster, genres}){
                         <p className="movie_summary">{summary.slice(0,140)}...</p>
                     </div>
                 </div>
-            </Link>
+           
         )
 }
 
